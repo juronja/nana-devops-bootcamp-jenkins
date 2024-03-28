@@ -25,7 +25,7 @@ pipeline {
         }
         stage('Build Docker Nexus') {
             environment {
-               NEXUS_CREDS = credentials('nexus-login')
+                NEXUS_CREDS = credentials('nexus-login')
             }
             steps {
                 echo "Building Docker Nexus ..."
