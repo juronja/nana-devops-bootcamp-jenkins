@@ -18,8 +18,7 @@ pipeline {
             steps {
                 echo "Building Docker ..."
                 sh "docker build -t juronja/java-maven-app:1.1 ."
-                withCredentials([usernamePassword(credentialsId: "docker-hub-login", passwordVariable: "PASS", usernameVariable: "USER" )])
-                sh "echo $PASS | docker login -u $USER --password-stdin 64.226.97.173:8082"
+                sh "echo $DOCKERHUB_CREDS_PSW | docker login -u $DOCKERHUB_CREDS_USR --password-stdin"
                 sh "docker push juronja/java-maven-app:1.1"
             }
         }
