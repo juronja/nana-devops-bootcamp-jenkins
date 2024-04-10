@@ -13,7 +13,7 @@ pipeline {
         }
         stage('Build Docker') {
             environment {
-                DOCKERHUB_CREDS = credentials('docker-hub-login')
+                DOCKERHUB_CREDS = credentials('dockerhub-creds')
             }
             steps {
                 echo "Building Docker ..."
@@ -25,7 +25,7 @@ pipeline {
         }
         stage('Build Docker Nexus') {
             environment {
-                NEXUS_CREDS = credentials('nexus-login')
+                NEXUS_CREDS = credentials('nexus-creds')
             }
             steps {
                 echo "Building Docker Nexus ..."
