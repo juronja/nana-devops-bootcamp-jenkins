@@ -7,11 +7,13 @@ pipeline {
     stages {
         stage('Increment Version') {
             steps {
-                echo "Incrementing version ..."
-                sh "mvn build-helper:parse-version version:set -DnewVersion=\\\${parsedVersion.majorVersion}.\\\${parsedVersion.minorVersion}.\\\${parsedVersion.nextIncrementalVersion} versions:commit"
-                def matcher = readFile("pom.xml") =~ "<version>(.+)</version>"
-                def version = matcher[0][1]
-                env.IMAGE_VERSION = "$version-$BUILD_NUMBER"
+                script {
+                    echo "Incrementing version ..."
+                    sh "mvn build-helper:parse-version version:set -DnewVersion=\\\${parsedVersion.majorVersion}.\\\${parsedVersion.minorVersion}.\\\${parsedVersion.nextIncrementalVersion} versions:commit"
+                    def matcher = readFile("pom.xml") =~ "<version>(.+)</version>"
+                    def version = matcher[0][1]
+                    env.IMAGE_VERSION = "$version-$BUILD_NUMBER"
+                }
             }
         }
         
