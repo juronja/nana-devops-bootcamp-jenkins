@@ -13,7 +13,7 @@ pipeline {
         stage('Increment Version') {
             steps {
                 echo "Incrementing version ... $JOB_NAME"
-                sh "mvn build-helper:parse-version version:set -DnewVersion=\\\${parsedVersion.majorVersion}.\\\${parsedVersion.minorVersion}.\\\${parsedVersion.nextIncrementalVersion} versions:commit"
+                sh "mvn build-helper:parse-version versions:set -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.minorVersion}.\${parsedVersion.nextIncrementalVersion} versions:commit"
             }
         }
         
@@ -29,10 +29,10 @@ pipeline {
             }
             steps {
                 echo "Building Docker ..."
-                sh "docker build -t juronja/java-maven-app:$BUILD_VERSION ."
+                sh "docker build -t juronja/$JOB_NAME:$BUILD_VERSION ."
                 // Next line in single quotes for security
                 sh 'echo $DOCKERHUB_CREDS_PSW | docker login -u $DOCKERHUB_CREDS_USR --password-stdin'
-                sh "docker push juronja/java-maven-app:$BUILD_VERSION"
+                sh "docker push juronja/$JOB_NAME:$BUILD_VERSION"
             }
         }
 //        stage('Build Docker Nexus') {
@@ -41,10 +41,10 @@ pipeline {
 //            }
 //            steps {
 //                echo "Building Docker Nexus ..."
-//                sh "docker build -t 64.226.97.173:8082/java-maven-app:1.1 ."
+//                sh "docker build -t 64.226.97.173:8082/$JOB_NAME:1.1 ."
 //                // Next line in single quotes for security
 //                sh 'echo $NEXUS_CREDS_PSW | docker login -u $NEXUS_CREDS_USR --password-stdin 64.226.97.173:8082'
-//                sh "docker push 64.226.97.173:8082/java-maven-app:1.1"
+//                sh "docker push 64.226.97.173:8082/$JOB_NAME:1.1"
 //            }
 //        }
     }
