@@ -12,7 +12,7 @@ pipeline {
     stages {
         stage('Increment Version') {
             steps {
-                echo "Incrementing version ... $BUILD_VERSION"
+                echo "Incrementing version ... $JOB_NAME"
                 sh "mvn build-helper:parse-version version:set -DnewVersion=\\\${parsedVersion.majorVersion}.\\\${parsedVersion.minorVersion}.\\\${parsedVersion.nextIncrementalVersion} versions:commit"
             }
         }
