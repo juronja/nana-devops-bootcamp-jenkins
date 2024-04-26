@@ -13,7 +13,7 @@ pipeline {
         stage('Increment Version') {
             steps {
                 echo "Incrementing version ... $BUILD_VERSION"
-                sh "mvn versions:set -DnewVersion=\\\${BUILD_VERSION} versions:commit"
+                sh "mvn versions:set -DnewVersion=\\${BUILD_VERSION} versions:commit"
                 
             }
         }
