@@ -30,10 +30,10 @@ pipeline {
             }
             steps {
                 echo "Building Docker ..."
-                sh "docker build -t juronja/$JOB_NAME:$BUILD_VERSION juronja/$JOB_NAME:latest ."
+                sh "docker build -t juronja/$JOB_NAME:$BUILD_VERSION -t juronja/$JOB_NAME:latest ."
                 // Next line in single quotes for security
                 sh 'echo $DOCKERHUB_CREDS_PSW | docker login -u $DOCKERHUB_CREDS_USR --password-stdin'
-                sh "docker push juronja/$JOB_NAME:$BUILD_VERSION"
+                sh "docker push juronja/$JOB_NAME --all-tags"
             }
         }
 //        stage('Build Docker Nexus') {
