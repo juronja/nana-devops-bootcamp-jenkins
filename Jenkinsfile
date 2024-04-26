@@ -4,7 +4,7 @@ pipeline {
         maven "Maven 3.9"
     }
     environment {
-    BUILD_VERSION = "VersionNumber projectStartDate: '2024-04-26', versionNumberString: 'BUILD_YEAR.BUILD_MONTH', versionPrefix: '', worstResultForIncrement: 'SUCCESS'"
+    BUILD_VERSION = VersionNumber (versionNumberString: '${BUILD_DATE_FORMATTED, "yyyyMMdd"}-develop-${BUILDS_TODAY}')
     //JOB_NAME
     }
 
