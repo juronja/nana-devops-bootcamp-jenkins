@@ -4,7 +4,7 @@ pipeline {
         maven "Maven 3.9"
     }
     environment {
-    BUILD_VERSION = VersionNumber (versionNumberString: '${BUILD_YEAR}.${BUILD_MONTH}')
+    BUILD_VERSION = VersionNumber (versionNumberString: '${BUILD_YEAR}.${BUILD_MONTH}.${BUILDS_TODAY}')
     //JOB_NAME
     }
 
@@ -13,7 +13,7 @@ pipeline {
         stage('Increment Version') {
             steps {
                 echo "Incrementing version ... $BUILD_VERSION"
-                sh "mvn build-helper:parse-version versions:set -DnewVersion=\\\${parsedVersion.majorVersion}.\\\${parsedVersion.minorVersion}.\\\${parsedVersion.nextIncrementalVersion} versions:commit"
+                sh "mvn versions:set -DnewVersion=\\\${BUILD_VERSION} versions:commit"
                 
             }
         }
