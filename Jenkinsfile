@@ -27,10 +27,10 @@ pipeline {
             }
             steps {
                 echo "Building Docker ..."
-                sh "docker build -t juronja/java-maven-app:$IMAGE_VERSION ."
+                sh "docker build -t juronja/java-maven-app:${IMAGE_VERSION} ."
                 // Next line in single quotes for security
                 sh 'echo $DOCKERHUB_CREDS_PSW | docker login -u $DOCKERHUB_CREDS_USR --password-stdin'
-                sh "docker push juronja/java-maven-app:$IMAGE_VERSION"
+                sh "docker push juronja/java-maven-app:${IMAGE_VERSION}"
             }
         }
 //        stage('Build Docker Nexus') {
