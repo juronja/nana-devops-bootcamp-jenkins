@@ -3,17 +3,17 @@ pipeline {
     tools {
         maven "Maven 3.9"
     }
+    environment {
+    BUILD_VERSION = "$BUILD_YEAR"
+    //JOB_NAME
+    }
+
     
     stages {
         stage('Increment Version') {
             steps {
-                script {
-                    echo "Incrementing version ..."
-                    sh "mvn build-helper:parse-version version:set -DnewVersion=\\\${parsedVersion.majorVersion}.\\\${parsedVersion.minorVersion}.\\\${parsedVersion.nextIncrementalVersion} versions:commit"
-                    def matcher = readFile("pom.xml") =~ "<version>(.+)</version>"
-                    def version = matcher[0][1]
-                    env.IMAGE_VERSION = "$version-$BUILD_NUMBER"
-                }
+                echo "Incrementing version ... $BUILD_VERSION"
+                sh "mvn build-helper:parse-version version:set -DnewVersion=\\\${parsedVersion.majorVersion}.\\\${parsedVersion.minorVersion}.\\\${parsedVersion.nextIncrementalVersion} versions:commit"
             }
         }
         
@@ -29,10 +29,10 @@ pipeline {
             }
             steps {
                 echo "Building Docker ..."
-                sh "docker build -t juronja/java-maven-app:${IMAGE_VERSION} ."
+                sh "docker build -t juronja/java-maven-app:$BUILD_VERSION ."
                 // Next line in single quotes for security
                 sh 'echo $DOCKERHUB_CREDS_PSW | docker login -u $DOCKERHUB_CREDS_USR --password-stdin'
-                sh "docker push juronja/java-maven-app:${IMAGE_VERSION}"
+                sh "docker push juronja/java-maven-app:$BUILD_VERSION"
             }
         }
 //        stage('Build Docker Nexus') {
